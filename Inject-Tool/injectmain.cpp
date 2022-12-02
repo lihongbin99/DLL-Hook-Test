@@ -1,8 +1,6 @@
 #include <windows.h>
 #include <psapi.h>
 
-int GetNum(int base);
-
 void injectDLL();
 void freeDLL();
 
@@ -73,7 +71,6 @@ void setFocus(HWND hwnd, int focusFlag, PCWSTR defaultText) {
     WCHAR buf[1024];
     int textLen = GetWindowTextW(hwnd, buf, sizeof(buf) / sizeof(WCHAR));
     if (focusFlag == 1) {
-        // TODO
         if (textLen == lstrlenW(defaultText)) {
             if (lstrcmpW(buf, defaultText) == 0) {
                 SetWindowTextW(hwnd, L"");
