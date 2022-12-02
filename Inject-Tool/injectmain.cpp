@@ -380,7 +380,7 @@ void freeDLL() {
     }
 
     if (NULL == dllModule) {
-        wsprintfW(errBuf, L"未找到 \"%ls\" 模块", dllPathBuf);
+        wsprintfW(errBuf, L"未找到模块: %ls", dllPathBuf);
         MessageBoxW(NULL, errBuf, L"错误", MB_OK);
         return;
     }
