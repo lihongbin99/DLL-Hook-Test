@@ -361,7 +361,7 @@ void freeDLL() {
     DWORD cbNeeded;
     BOOL result = EnumProcessModules(remoteProcess, hModules, sizeof(hModules), &cbNeeded);
     if (!result) {
-        wsprintfW(errBuf, L"查找模块列表失败: % d", GetLastError());
+        wsprintfW(errBuf, L"查找模块列表失败: %d", GetLastError());
         MessageBoxW(NULL, errBuf, L"错误", MB_OK);
         return;
     }
@@ -380,7 +380,7 @@ void freeDLL() {
     }
 
     if (NULL == dllModule) {
-        wsprintfW(errBuf, L"查找 \"%ls\" 模块失败: % d", dllPathBuf, GetLastError());
+        wsprintfW(errBuf, L"未找到 \"%ls\" 模块", dllPathBuf);
         MessageBoxW(NULL, errBuf, L"错误", MB_OK);
         return;
     }
