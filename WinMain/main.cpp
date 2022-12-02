@@ -1,5 +1,7 @@
 #include <windows.h>
 
+int GetNum(int base);
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #define IDS_BUTTON 1
@@ -45,6 +47,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 }
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    WCHAR buf[MAX_PATH];
     switch (uMsg) {
     case WM_CREATE:
         CreateWindowW(L"BUTTON", L"button", WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 0, 0, 100, 50, hwnd, (HMENU) IDS_BUTTON, hInstance, NULL);
@@ -52,7 +55,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     case WM_COMMAND:
         if (LOWORD(wParam) == IDS_BUTTON) {
             if (HIWORD(wParam) == BN_CLICKED) {
-                MessageBoxW(hwnd, L"123", L"ÌבÊ¾", MB_OK);
+                int num = GetNum(456);
+                wsprintfW(buf, L"num: %d", num);
+                MessageBoxW(NULL, buf, L"123", MB_OK);
             }
         }
         break;
@@ -61,4 +66,18 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
         return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+ULONGLONG TimeMilliSecond() {
+    FILETIME file_time;
+    GetSystemTimeAsFileTime(&file_time);
+    ULONGLONG time = ((ULONGLONG)file_time.dwLowDateTime) + ((ULONGLONG)file_time.dwHighDateTime << 32);
+    static const ULONGLONG EPOCH = ((ULONGLONG)116444736000000000ULL);
+    return (ULONGLONG)((time - EPOCH) / 10000LL);
+}
+int GetNum(int base) {
+    if (base > 0) {
+        return base + GetNum(base - 1);
+    }
+    return base;
 }
